@@ -52,7 +52,7 @@ function initScene() {
     uTime: { value: 0 },
     uMouse: { value: new THREE.Vector2(0, 0) },
     uScroll: { value: 0 },
-    uSize: { value: isMobile ? 2.4 : 3.2 },
+    uSize: { value: isMobile ? 1.8 : 2.3 },
     uColorA: { value: new THREE.Color("#7c5cff") },
     uColorB: { value: new THREE.Color("#22d3ee") },
     uPixelRatio: { value: renderer.getPixelRatio() },
@@ -72,25 +72,30 @@ function initScene() {
       attribute float aSeed;
       varying float vElevation;
       varying float vDist;
+      varying float vSeed;
 
       void main() {
         vec3 pos = position;
-        float wave = sin(pos.x * 0.35 + uTime * 0.8) * cos(pos.y * 0.35 + uTime * 0.6);
-        float wave2 = sin((pos.x + pos.y) * 0.22 + uTime * 1.1);
-        float elevation = wave * 0.9 + wave2 * 0.6;
+        // Calmer, slower-breathing swell — lower amplitude for a subtle field.
+        float wave = sin(pos.x * 0.28 + uTime * 0.32) * cos(pos.y * 0.28 + uTime * 0.26);
+        float wave2 = sin((pos.x + pos.y) * 0.18 + uTime * 0.45);
+        float elevation = wave * 0.45 + wave2 * 0.32;
 
-        // mouse ripple
+        // gentle mouse swell (a soft lift, not a sharp ripple)
         vec2 m = uMouse * 8.0;
         float d = distance(pos.xy, m);
-        elevation += smoothstep(5.0, 0.0, d) * 1.6 * sin(d * 1.5 - uTime * 3.0);
+        elevation += smoothstep(6.0, 0.0, d) * 0.7 * sin(d * 0.8 - uTime * 1.4);
 
-        pos.z = elevation - uScroll * 3.0;
+        pos.z = elevation - uScroll * 2.2;
         vElevation = elevation;
         vDist = d;
+        vSeed = aSeed;
 
         vec4 mv = modelViewMatrix * vec4(pos, 1.0);
         gl_Position = projectionMatrix * mv;
-        float size = uSize * (0.6 + aSeed * 0.8);
+        // Subtle twinkle so the field feels alive without being busy.
+        float twinkle = 0.75 + 0.25 * sin(uTime * 0.8 + aSeed * 6.2831);
+        float size = uSize * (0.55 + aSeed * 0.7) * twinkle;
         gl_PointSize = size * uPixelRatio * (12.0 / -mv.z);
       }
     `,
@@ -99,15 +104,18 @@ function initScene() {
       uniform vec3 uColorB;
       varying float vElevation;
       varying float vDist;
+      varying float vSeed;
 
       void main() {
         float dd = distance(gl_PointCoord, vec2(0.5));
         if (dd > 0.5) discard;
-        float alpha = smoothstep(0.5, 0.0, dd);
+        // Soft feathered dot for a quieter, more atmospheric look.
+        float alpha = smoothstep(0.5, 0.05, dd);
         vec3 color = mix(uColorA, uColorB, clamp(vElevation * 0.5 + 0.5, 0.0, 1.0));
-        float glow = smoothstep(4.0, 0.0, vDist);
-        color = mix(color, vec3(1.0), glow * 0.5);
-        gl_FragColor = vec4(color, alpha * (0.35 + glow * 0.4));
+        float glow = smoothstep(5.0, 0.0, vDist);
+        color = mix(color, vec3(1.0), glow * 0.35);
+        float base = 0.10 + vSeed * 0.06;
+        gl_FragColor = vec4(color, alpha * (base + glow * 0.28));
       }
     `,
   });
@@ -159,9 +167,9 @@ function initScene() {
     uniforms.uMouse.value.copy(mouse);
     uniforms.uScroll.value += (scrollProgress - uniforms.uScroll.value) * 0.05;
 
-    points.rotation.z = mouse.x * 0.12;
-    camera.position.x += (mouse.x * 1.5 - camera.position.x) * 0.04;
-    camera.position.y += (mouse.y * 1.0 - camera.position.y) * 0.04;
+    points.rotation.z = mouse.x * 0.06;
+    camera.position.x += (mouse.x * 0.9 - camera.position.x) * 0.03;
+    camera.position.y += (mouse.y * 0.6 - camera.position.y) * 0.03;
     camera.lookAt(0, 0, 0);
 
     renderer.render(scene, camera);

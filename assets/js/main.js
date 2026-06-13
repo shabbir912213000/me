@@ -173,19 +173,19 @@ function splitWords() {
   });
 }
 
-/* ---------------- Marquee ---------------- */
-function marquee() {
-  if (prefersReduced || !gsap) return;
-  const track = document.getElementById("marqueeTrack");
-  if (!track) return;
-  const first = track.querySelector("span");
-  const width = first.getBoundingClientRect().width;
-  gsap.to(track, {
-    x: -width,
-    duration: 22,
-    ease: "none",
-    repeat: -1,
+/* ---------------- Local time / timezone clock ---------------- */
+function clock() {
+  const el = document.getElementById("navClockTime");
+  if (!el) return;
+  const fmt = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Dhaka",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
   });
+  const update = () => { el.textContent = fmt.format(new Date()); };
+  update();
+  setInterval(update, 1000 * 15);
 }
 
 /* ---------------- Custom cursor + magnetic ---------------- */
@@ -193,6 +193,12 @@ function cursor() {
   if (isTouch || prefersReduced || !gsap) return;
   const ring = document.getElementById("cursor");
   const dot = document.getElementById("cursorDot");
+
+  // Spawn both cursor parts at the centre of the screen on load so the pointer
+  // has a defined home before the first pointer movement.
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  gsap.set([ring, dot], { x: cx, y: cy });
 
   const xS = gsap.quickTo(ring, "x", { duration: 0.5, ease: "power3" });
   const yS = gsap.quickTo(ring, "y", { duration: 0.5, ease: "power3" });
@@ -280,10 +286,10 @@ function nav() {
 function boot() {
   splitWords();
   nav();
+  clock();
   cursor();
   spotlight();
   scrollReveals();
-  marquee();
   ScrollTrigger?.refresh();
 }
 

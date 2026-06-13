@@ -7,9 +7,10 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 
 ## Highlights
 
-- **WebGL hero** — an interactive, mouse- & scroll-reactive particle field built with [Three.js](https://threejs.org/) and custom GLSL shaders.
-- **Scroll choreography** — reveals, parallax, magnetic buttons, and a marquee powered by [GSAP](https://gsap.com/) + ScrollTrigger.
-- **Custom cursor** & spotlight cards on pointer devices.
+- **WebGL hero** — a subtle, mouse- & scroll-reactive particle field built with [Three.js](https://threejs.org/) and custom GLSL shaders (soft swell + gentle twinkle).
+- **Scroll choreography** — reveals, parallax, magnetic buttons, and a dual-row glass **tech ribbon** powered by [GSAP](https://gsap.com/) + ScrollTrigger and CSS.
+- **Liquid-glass navbar** — a frosted, refractive nav panel with a live **BST (UTC+06:00)** local-time readout.
+- **Custom cursor** that spawns at screen-centre on load, plus spotlight cards on pointer devices.
 - **Fully responsive** with a mobile menu, and a graceful `prefers-reduced-motion` fallback (WebGL + animations disabled).
 - **Accessible & fast** — semantic markup, system fonts fallback, capped pixel ratio, paused rendering when the tab is hidden.
 
@@ -35,7 +36,7 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 │   │   ├── wavy-mask.svg   # Filled wavy shape (mask for the rotating hero reveal)
 │   │   └── wavy-frame.svg  # Wavy outline used as the rotating hero ring
 │   └── js/
-│       ├── main.js         # GSAP interactions, cursor, nav, reveals
+│       ├── main.js         # GSAP interactions, cursor, nav, reveals, BST clock
 │       └── scene.js        # Three.js particle background
 ├── scripts/
 │   └── regenerate-wavy-mask.mjs  # Rebuild hero wavy mask + ring SVGs
@@ -45,16 +46,20 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 
 ### Logo & portrait treatment
 
-- **Nav monogram** — an inline `SH` SVG whose two strokes draw in sequence (`S`
-  first, then `H`), hold, fade out, and loop forever (pure CSS via
-  `stroke-dasharray`/`stroke-dashoffset`). A `prefers-reduced-motion` fallback
-  shows the monogram fully drawn and static.
+- **Nav monogram** — a single continuous, cursive `SH` signature drawn as one
+  inline SVG path. A `feTurbulence` displacement filter gives it a sketchy,
+  hand-inked feel. The stroke draws from one end to the other and then retraces
+  back to the start, looping forever (pure CSS via `stroke-dasharray`/
+  `stroke-dashoffset` with `animation-direction: alternate`). A
+  `prefers-reduced-motion` fallback shows the monogram fully drawn and static.
 - **Hero portrait** — the image fills the maximum area while a wavy window
   (`wavy-mask.svg`) rotates over it and the photo counter-rotates to stay upright,
   so the spinning wavy shape *reveals* the picture rather than statically clipping
   it. A gradient `wavy-frame.svg` ring traces the exact same outline. On mobile
-  the portrait moves beside the title with its left edge feathered into the
-  background. Both SVGs hold a **pre-baked static path** — CSS masks run in a
+  the title breaks onto four stacked lines (`Software / Engineer / & Tech / Lead`)
+  beside a generously sized portrait in the top row, with the tagline and buttons
+  spanning full width beneath, and the availability beacon relocated to a vertical
+  side-rail. Both SVGs hold a **pre-baked static path** — CSS masks run in a
   script-free mode, so the shape is generated offline and written into the files.
 
   **To change the wavy shape:**
