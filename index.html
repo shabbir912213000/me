@@ -43,11 +43,19 @@
   <!-- Navigation -->
   <header class="nav" id="nav">
     <a href="#home" class="nav__logo" data-cursor="hover" aria-label="Md Shabbir Hossain — home">
-      <span class="nav__avatar">
-        <span class="nav__avatar-reveal">
-          <img src="./assets/img/me.jpg" alt="Md Shabbir Hossain" width="48" height="48" />
-        </span>
-        <span class="nav__avatar-ring" aria-hidden="true"></span>
+      <span class="nav__logo-mark" aria-hidden="true">
+        <svg class="sh-logo" viewBox="0 0 120 64" role="img" aria-label="SH monogram">
+          <defs>
+            <linearGradient id="shGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7c5cff" />
+              <stop offset="1" stop-color="#22d3ee" />
+            </linearGradient>
+          </defs>
+          <path id="letter-s" pathLength="1"
+            d="M44 17 C44 10 36 7 28 7 C17 7 11 13 11 20 C11 28 21 30 28 32 C36 34 46 36 46 45 C46 53 38 57 28 57 C18 57 11 53 11 46" />
+          <path id="letter-h" pathLength="1"
+            d="M70 7 L70 57 M70 32 L106 32 M106 7 L106 57" />
+        </svg>
       </span>
     </a>
     <nav class="nav__links" id="navLinks">
@@ -90,9 +98,12 @@
           </div>
         </div>
         <div class="hero__portrait reveal-up">
-          <div class="hero__portrait-frame">
-            <img src="./assets/img/me.jpg" alt="Portrait of Md Shabbir Hossain" width="420" height="525" />
-          </div>
+          <span class="hero__avatar">
+            <span class="hero__avatar-reveal">
+              <img src="./assets/img/me.jpg" alt="Portrait of Md Shabbir Hossain" width="440" height="440" />
+            </span>
+            <span class="hero__avatar-ring" aria-hidden="true"></span>
+          </span>
         </div>
       </div>
       <div class="hero__scroll reveal-up">

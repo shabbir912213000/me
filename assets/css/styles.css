@@ -233,40 +233,44 @@ main { position: relative; z-index: 1; }
 .nav__burger.is-open span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
 .nav__burger.is-open span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 
-/* ============ Header avatar (rotating wavy reveal) ============ */
-/* The portrait is NOT clipped to the wavy outline. Instead a wavy window
-   (mask) spins over a full-bleed photo, while the photo counter-rotates to
-   stay upright — so the image always fills the maximum area inside the shape
-   and the rotating wavy form reveals it. */
+/* ============ Header monogram (animated SH) ============ */
+/* The logo is an inline SVG whose two strokes draw in sequence — S first,
+   then H — hold, fade out, and loop forever. */
 .nav__logo { display: inline-flex; align-items: center; }
-.nav__avatar {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  display: block;
+.nav__logo-mark {
+  display: inline-flex;
+  align-items: center;
 }
-.nav__avatar-reveal,
-.nav__avatar-ring {
-  position: absolute;
-  inset: 0;
-  animation: avatarSpin 16s linear infinite;
+.sh-logo {
+  width: 66px;
+  height: 36px;
+  overflow: visible;
 }
-.nav__avatar-reveal {
-  -webkit-mask: url(../img/wavy-mask.svg) center / contain no-repeat;
-          mask: url(../img/wavy-mask.svg) center / contain no-repeat;
+.sh-logo path {
+  fill: none;
+  stroke: url(#shGrad);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
 }
-.nav__avatar-reveal img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 22%;
-  display: block;
-  animation: avatarSpin 16s linear infinite reverse;
+#letter-s { animation: drawS 5.6s ease-in-out infinite; }
+#letter-h { animation: drawH 5.6s ease-in-out infinite; }
+@keyframes drawS {
+  0%   { stroke-dashoffset: 1; opacity: 1; }
+  20%  { stroke-dashoffset: 0; opacity: 1; }
+  82%  { stroke-dashoffset: 0; opacity: 1; }
+  95%  { stroke-dashoffset: 0; opacity: 0; }
+  100% { stroke-dashoffset: 1; opacity: 0; }
 }
-.nav__avatar-ring {
-  background: var(--grad);
-  -webkit-mask: url(../img/wavy-frame.svg) center / contain no-repeat;
-          mask: url(../img/wavy-frame.svg) center / contain no-repeat;
+@keyframes drawH {
+  0%   { stroke-dashoffset: 1; opacity: 1; }
+  24%  { stroke-dashoffset: 1; opacity: 1; }
+  44%  { stroke-dashoffset: 0; opacity: 1; }
+  82%  { stroke-dashoffset: 0; opacity: 1; }
+  95%  { stroke-dashoffset: 0; opacity: 0; }
+  100% { stroke-dashoffset: 1; opacity: 0; }
 }
 @keyframes avatarSpin { to { transform: rotate(360deg); } }
 
@@ -418,7 +422,11 @@ section, .contact {
 }
 .hero__meta span { font-size: 0.72rem; color: var(--faint); letter-spacing: 0.15em; text-transform: uppercase; }
 
-/* ============ Hero portrait (editorial card) ============ */
+/* ============ Hero portrait (rotating wavy-mask reveal) ============ */
+/* The portrait is NOT clipped to the wavy outline. Instead a wavy window
+   (mask) spins over a full-bleed photo, while the photo counter-rotates to
+   stay upright — so the image always fills the maximum area inside the shape
+   and the rotating wavy form reveals it. A gradient wavy ring traces the edge. */
 .hero__layout {
   display: grid;
   grid-template-columns: 1.12fr 0.88fr;
@@ -430,27 +438,37 @@ section, .contact {
 .hero__portrait {
   justify-self: center;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
 }
-.hero__portrait-frame {
+.hero__avatar {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  border-radius: 26px;
-  padding: 3px;
-  background: var(--grad);
-  transform: rotate(-3deg);
-  box-shadow: 0 40px 80px -30px rgba(124, 92, 255, 0.55);
-  transition: transform .6s var(--ease);
+  aspect-ratio: 1 / 1;
+  display: block;
 }
-.hero__portrait-frame:hover { transform: rotate(0deg) scale(1.01); }
-.hero__portrait-frame img {
+.hero__avatar-reveal,
+.hero__avatar-ring {
+  position: absolute;
+  inset: 0;
+  animation: avatarSpin 22s linear infinite;
+}
+.hero__avatar-reveal {
+  -webkit-mask: url(../img/wavy-mask.svg) center / contain no-repeat;
+          mask: url(../img/wavy-mask.svg) center / contain no-repeat;
+}
+.hero__avatar-reveal img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 18%;
   display: block;
-  border-radius: 23px;
+  animation: avatarSpin 22s linear infinite reverse;
+}
+.hero__avatar-ring {
+  background: var(--grad);
+  -webkit-mask: url(../img/wavy-frame.svg) center / contain no-repeat;
+          mask: url(../img/wavy-frame.svg) center / contain no-repeat;
+  filter: drop-shadow(0 30px 60px rgba(124, 92, 255, 0.45));
 }
 
 /* ============ Marquee ============ */
@@ -690,9 +708,22 @@ section, .contact {
   .tl-item { grid-template-columns: 1fr; gap: 1.2rem; }
   .hero__meta { display: none; }
 
-  .hero__layout { grid-template-columns: 1fr; gap: 2.5rem; }
-  .hero__layout .hero__inner { order: 2; max-width: none; }
-  .hero__portrait { order: 1; max-width: 240px; justify-self: start; }
+  /* Portrait sits to the right of the title + tagline. Its left side is
+     feathered into the background so the spinning shape blends in rather than
+     claiming the full column width. */
+  .hero__layout {
+    grid-template-columns: 1.35fr 0.65fr;
+    gap: clamp(0.75rem, 3vw, 1.5rem);
+    align-items: center;
+  }
+  .hero__layout .hero__inner { order: 1; max-width: none; }
+  .hero__portrait {
+    order: 2;
+    max-width: 280px;
+    justify-self: end;
+    -webkit-mask: linear-gradient(to right, transparent 0%, #000 42%);
+            mask: linear-gradient(to right, transparent 0%, #000 42%);
+  }
 }
 
 @media (max-width: 540px) {
@@ -700,7 +731,12 @@ section, .contact {
   .hero { padding-top: 6rem; }
   .hero__scroll { display: none; }
   .contact__foot { justify-content: center; text-align: center; }
-  .hero__portrait { max-width: 200px; }
+  .hero__layout { grid-template-columns: 1.45fr 0.55fr; }
+  .hero__portrait {
+    max-width: 170px;
+    -webkit-mask: linear-gradient(to right, transparent 0%, #000 50%);
+            mask: linear-gradient(to right, transparent 0%, #000 50%);
+  }
 }
 
 /* ============ Reveal base states ============ */
@@ -718,6 +754,11 @@ section, .contact {
   .reveal-up { opacity: 1; transform: none; }
   .reveal-lines .reveal-word { opacity: 1; }
   #bg-canvas { display: none; }
+  .sh-logo path {
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
 }
 
 /* Hide custom cursor on touch devices */

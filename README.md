@@ -32,25 +32,40 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 │   ├── css/styles.css      # All styles
 │   ├── img/
 │   │   ├── me.jpg          # Optimized portrait
-│   │   ├── wavy-mask.svg   # Filled wavy shape (mask for the nav avatar reveal)
-│   │   └── wavy-frame.svg  # Wavy outline used as the rotating avatar ring
+│   │   ├── wavy-mask.svg   # Filled wavy shape (mask for the rotating hero reveal)
+│   │   └── wavy-frame.svg  # Wavy outline used as the rotating hero ring
 │   └── js/
 │       ├── main.js         # GSAP interactions, cursor, nav, reveals
 │       └── scene.js        # Three.js particle background
+├── scripts/
+│   └── regenerate-wavy-mask.mjs  # Rebuild hero wavy mask + ring SVGs
 ├── .github/workflows/deploy.yml  # Pages deployment
 └── .nojekyll               # Disable Jekyll processing on Pages
 ```
 
-### Portrait treatment
+### Logo & portrait treatment
 
-The photo appears in two places:
-
-- **Nav avatar** — the image fills the maximum area while a wavy window
+- **Nav monogram** — an inline `SH` SVG whose two strokes draw in sequence (`S`
+  first, then `H`), hold, fade out, and loop forever (pure CSS via
+  `stroke-dasharray`/`stroke-dashoffset`). A `prefers-reduced-motion` fallback
+  shows the monogram fully drawn and static.
+- **Hero portrait** — the image fills the maximum area while a wavy window
   (`wavy-mask.svg`) rotates over it and the photo counter-rotates to stay upright,
   so the spinning wavy shape *reveals* the picture rather than statically clipping
-  it. A gradient `wavy-frame.svg` ring traces the edge.
-- **Hero** — an editorial card: rounded portrait with a gradient border, a gentle
-  tilt and soft shadow that straightens on hover.
+  it. A gradient `wavy-frame.svg` ring traces the exact same outline. On mobile
+  the portrait moves beside the title with its left edge feathered into the
+  background. Both SVGs hold a **pre-baked static path** — CSS masks run in a
+  script-free mode, so the shape is generated offline and written into the files.
+
+  **To change the wavy shape:**
+  1. Open `scripts/regenerate-wavy-mask.mjs` and edit the `config` object at the
+     top (`apexCount`, `outerRadius`, `innerRadius`, `apexRoundness`,
+     `valleyRoundness`, `rotation`, etc.).
+  2. Regenerate both SVGs:
+     ```bash
+     node scripts/regenerate-wavy-mask.mjs
+     ```
+  3. Refresh the site locally to preview the hero portrait.
 
 ## Run locally
 
