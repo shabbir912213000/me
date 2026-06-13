@@ -42,8 +42,13 @@
 
   <!-- Navigation -->
   <header class="nav" id="nav">
-    <a href="#home" class="nav__logo" data-cursor="hover">
-      <span>MSH</span>
+    <a href="#home" class="nav__logo" data-cursor="hover" aria-label="Md Shabbir Hossain — home">
+      <span class="nav__avatar">
+        <span class="nav__avatar-reveal">
+          <img src="./assets/img/me.jpg" alt="Md Shabbir Hossain" width="48" height="48" />
+        </span>
+        <span class="nav__avatar-ring" aria-hidden="true"></span>
+      </span>
     </a>
     <nav class="nav__links" id="navLinks">
       <a href="#about" data-cursor="hover">About</a>
@@ -60,27 +65,34 @@
   <main id="smooth-content">
     <!-- Hero -->
     <section class="hero" id="home">
-      <div class="hero__inner">
-        <div class="hero__eyebrow reveal-up">
-          <span class="dot"></span> Available for new opportunities
+      <div class="hero__layout">
+        <div class="hero__inner">
+          <div class="hero__eyebrow reveal-up">
+            <span class="dot"></span> Available for new opportunities
+          </div>
+          <h1 class="hero__title">
+            <span class="line"><span class="word">Software</span></span>
+            <span class="line"><span class="word grad">Engineer</span></span>
+            <span class="line"><span class="word">&amp; Tech Lead</span></span>
+          </h1>
+          <p class="hero__sub reveal-up">
+            I'm <strong>Md Shabbir Hossain</strong> — architecting robust, enterprise-grade
+            applications across the <em>.NET</em> ecosystem, <em>React</em> &amp; <em>Angular</em>
+            for 6+ years.
+          </p>
+          <div class="hero__actions reveal-up">
+            <a href="#work" class="btn btn--primary" data-cursor="hover" data-magnetic>
+              <span>View my work</span>
+            </a>
+            <a href="#contact" class="btn btn--ghost" data-cursor="hover" data-magnetic>
+              <span>Get in touch</span>
+            </a>
+          </div>
         </div>
-        <h1 class="hero__title">
-          <span class="line"><span class="word">Software</span></span>
-          <span class="line"><span class="word grad">Engineer</span></span>
-          <span class="line"><span class="word">&amp; Tech Lead</span></span>
-        </h1>
-        <p class="hero__sub reveal-up">
-          I'm <strong>Md Shabbir Hossain</strong> — architecting robust, enterprise-grade
-          applications across the <em>.NET</em> ecosystem, <em>React</em> &amp; <em>Angular</em>
-          for 6+ years.
-        </p>
-        <div class="hero__actions reveal-up">
-          <a href="#work" class="btn btn--primary" data-cursor="hover" data-magnetic>
-            <span>View my work</span>
-          </a>
-          <a href="#contact" class="btn btn--ghost" data-cursor="hover" data-magnetic>
-            <span>Get in touch</span>
-          </a>
+        <div class="hero__portrait reveal-up">
+          <div class="hero__portrait-frame">
+            <img src="./assets/img/me.jpg" alt="Portrait of Md Shabbir Hossain" width="420" height="525" />
+          </div>
         </div>
       </div>
       <div class="hero__scroll reveal-up">

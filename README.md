@@ -30,12 +30,27 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 ├── index.html              # Markup + CDN/import-map wiring
 ├── assets/
 │   ├── css/styles.css      # All styles
+│   ├── img/
+│   │   ├── me.jpg          # Optimized portrait
+│   │   ├── wavy-mask.svg   # Filled wavy shape (mask for the nav avatar reveal)
+│   │   └── wavy-frame.svg  # Wavy outline used as the rotating avatar ring
 │   └── js/
 │       ├── main.js         # GSAP interactions, cursor, nav, reveals
 │       └── scene.js        # Three.js particle background
 ├── .github/workflows/deploy.yml  # Pages deployment
 └── .nojekyll               # Disable Jekyll processing on Pages
 ```
+
+### Portrait treatment
+
+The photo appears in two places:
+
+- **Nav avatar** — the image fills the maximum area while a wavy window
+  (`wavy-mask.svg`) rotates over it and the photo counter-rotates to stay upright,
+  so the spinning wavy shape *reveals* the picture rather than statically clipping
+  it. A gradient `wavy-frame.svg` ring traces the edge.
+- **Hero** — an editorial card: rounded portrait with a gradient border, a gentle
+  tilt and soft shadow that straightens on hover.
 
 ## Run locally
 

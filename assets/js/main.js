@@ -8,7 +8,8 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 /* Hide hero title words up-front (while the loader covers the screen) so the
    intro reveal has a clean starting state. CSS leaves them visible as a
