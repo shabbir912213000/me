@@ -244,8 +244,20 @@ function spotlight() {
 function nav() {
   const navEl = document.getElementById("nav");
   const burger = document.getElementById("navBurger");
+  const closeBtn = document.getElementById("navClose");
   const links = document.getElementById("navLinks");
+  const progressEl = document.getElementById("scrollProgress");
   let lastY = 0;
+
+  const setScrollProgress =
+    prefersReduced || !gsap
+      ? (p) => {
+          progressEl.style.transform = `scaleX(${p})`;
+        }
+      : gsap.quickTo(progressEl, "scaleX", {
+          duration: 0.75,
+          ease: "power1.out",
+        });
 
   const onScroll = () => {
     const y = window.scrollY;
@@ -259,9 +271,10 @@ function nav() {
 
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const p = max > 0 ? y / max : 0;
-    document.getElementById("scrollProgress").style.transform = `scaleX(${p})`;
+    setScrollProgress(p);
   };
   window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
   const closeMenu = () => {
     links.classList.remove("is-open");
@@ -278,6 +291,8 @@ function nav() {
     burger.setAttribute("aria-expanded", String(open));
     document.body.classList.toggle("is-locked", open);
   });
+
+  closeBtn.addEventListener("click", closeMenu);
 
   links.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
 }

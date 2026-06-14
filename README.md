@@ -9,9 +9,9 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 
 - **WebGL hero** — a subtle, mouse- & scroll-reactive particle field built with [Three.js](https://threejs.org/) and custom GLSL shaders (soft swell + gentle twinkle).
 - **Scroll choreography** — reveals, parallax, magnetic buttons, and a dual-row glass **tech ribbon** powered by [GSAP](https://gsap.com/) + ScrollTrigger and CSS.
-- **Liquid-glass navbar** — a frosted, refractive nav panel with a live **BST (UTC+06:00)** local-time readout.
+- **Liquid-glass navbar** — a frosted, refractive nav panel with a live **BST (UTC+06:00)** local-time readout and a GSAP-smoothed **scroll-progress** bar along the top edge.
 - **Custom cursor** that spawns at screen-centre on load, plus spotlight cards on pointer devices.
-- **Fully responsive** with a mobile menu, and a graceful `prefers-reduced-motion` fallback (WebGL + animations disabled).
+- **Fully responsive** — on small screens the nav opens a full-screen glass menu with drifting aurora orbs and a particle grid that echo the WebGL hero, plus a dedicated close control; `prefers-reduced-motion` disables WebGL and heavy animation.
 - **Accessible & fast** — semantic markup, system fonts fallback, capped pixel ratio, paused rendering when the tab is hidden.
 
 ## Tech
@@ -36,7 +36,7 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 │   │   ├── wavy-mask.svg   # Filled wavy shape (mask for the rotating hero reveal)
 │   │   └── wavy-frame.svg  # Wavy outline used as the rotating hero ring
 │   └── js/
-│       ├── main.js         # GSAP interactions, cursor, nav, reveals, BST clock
+│       ├── main.js         # GSAP interactions, cursor, nav, scroll progress, reveals, BST clock
 │       └── scene.js        # Three.js particle background
 ├── scripts/
 │   └── regenerate-wavy-mask.mjs  # Rebuild hero wavy mask + ring SVGs
@@ -58,9 +58,10 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
   it. A gradient `wavy-frame.svg` ring traces the exact same outline. On mobile
   the title breaks onto four stacked lines (`Software / Engineer / & Tech / Lead`)
   beside a generously sized portrait in the top row, with the tagline and buttons
-  spanning full width beneath, and the availability beacon relocated to a vertical
-  side-rail. Both SVGs hold a **pre-baked static path** — CSS masks run in a
-  script-free mode, so the shape is generated offline and written into the files.
+  spanning full width beneath; the footer meta row lists RUET, years of experience,
+  and stack highlights (.NET backend, React, Angular). Both SVGs hold a **pre-baked
+  static path** — CSS masks run in a script-free mode, so the shape is generated
+  offline and written into the files.
 
   **To change the wavy shape:**
   1. Open `scripts/regenerate-wavy-mask.mjs` and edit the `config` object at the

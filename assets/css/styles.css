@@ -25,6 +25,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -251,6 +252,7 @@ main { position: relative; z-index: 1; }
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0.04em;
+  margin-bottom: 0.3rem;
   color: var(--text);
 }
 .nav__clock-zone {
@@ -281,6 +283,10 @@ main { position: relative; z-index: 1; }
 .nav__burger.is-open span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
 .nav__burger.is-open span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 
+.nav__close {
+  display: none;
+}
+
 /* ============ Header monogram (animated cursive SH) ============ */
 /* A single continuous, hand-drawn cursive "SH" stroke. A feTurbulence
    displacement gives it a sketchy, inky feel. The stroke draws from one end to
@@ -305,11 +311,11 @@ main { position: relative; z-index: 1; }
   filter: url(#shSketch);
   stroke-dasharray: 1 1;
   stroke-dashoffset: 1;
-  animation: shDraw 4.2s ease-in-out infinite alternate;
+  animation: shDraw 5s cubic-bezier(0.80, 0, 0.20, 1) infinite alternate;
 }
 @keyframes shDraw {
-  0%   { stroke-dashoffset: 1; }
-  100% { stroke-dashoffset: 0; }
+  0%, 10%   { stroke-dashoffset: 1; stroke-linecap: butt; }
+  90%, 100% { stroke-dashoffset: 0; stroke-linecap: round; }
 }
 @keyframes avatarSpin { to { transform: rotate(360deg); } }
 
@@ -508,9 +514,9 @@ section, .contact {
 .hero__layout {
   flex: 1;
   display: grid;
-  grid-template-columns: 1.12fr 0.88fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
+  gap: clamp(2rem, 6vw, 2rem);
   width: 100%;
   min-height: 0;
 }
@@ -519,6 +525,7 @@ section, .contact {
   justify-self: center;
   width: 100%;
   max-width: 440px;
+  overflow: hidden;
 }
 .hero__avatar {
   position: relative;
@@ -817,21 +824,125 @@ section, .contact {
   }
   .nav__clock-time { font-size: 0.82rem; }
   .nav__clock-zone { font-size: 0.55rem; }
+  .nav.is-menu-open .nav__glass { opacity: 1; }
+
   .nav__links {
     position: fixed;
     inset: 0;
     flex-direction: column;
     justify-content: center;
     gap: 1.8rem;
-    background: rgba(6,6,10,0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(6, 6, 10, 0.45);
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
     transform: translateY(-100%);
     transition: transform .55s var(--ease);
     z-index: 310;
+    isolation: isolate;
+    overflow: hidden;
   }
+
+  /* Aurora orbs + particle grid — echoes the WebGL field behind the menu. */
+  .nav__menu-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .nav__menu-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(72px);
+    will-change: transform;
+    animation: menuOrbDrift 16s var(--ease) infinite alternate;
+  }
+  .nav__menu-orb:nth-child(1) {
+    width: min(72vw, 420px);
+    height: min(72vw, 420px);
+    top: -18%;
+    left: -16%;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.75) 0%, transparent 68%);
+    animation-duration: 18s;
+  }
+  .nav__menu-orb:nth-child(2) {
+    width: min(65vw, 380px);
+    height: min(65vw, 380px);
+    top: 8%;
+    right: -22%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.62) 0%, transparent 68%);
+    animation-duration: 14s;
+    animation-delay: -4s;
+    animation-direction: alternate-reverse;
+  }
+  .nav__menu-orb:nth-child(3) {
+    width: min(80vw, 460px);
+    height: min(80vw, 460px);
+    bottom: -28%;
+    left: 18%;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.45) 0%, rgba(34, 211, 238, 0.28) 42%, transparent 72%);
+    animation-duration: 20s;
+    animation-delay: -7s;
+  }
+  @keyframes menuOrbDrift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(8vw, -6vh) scale(1.12); }
+  }
+  .nav__menu-grid {
+    position: absolute;
+    inset: -50%;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.35;
+    transform: rotate(-12deg);
+    mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 20%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 20%, transparent 72%);
+    animation: menuGridPulse 10s ease-in-out infinite alternate;
+  }
+  @keyframes menuGridPulse {
+    0%   { opacity: 0.22; transform: rotate(-12deg) scale(1); }
+    100% { opacity: 0.42; transform: rotate(-12deg) scale(1.04); }
+  }
+  .nav__links::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 38%, transparent 30%, rgba(6, 6, 10, 0.55) 100%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 18%, transparent 82%, rgba(124, 92, 255, 0.08) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .nav__links > *:not(.nav__menu-bg):not(.nav__close) { position: relative; z-index: 1; }
   .nav__links a { font-size: 1.6rem; }
   .nav__links.is-open { transform: translateY(0); }
+
+  .nav__close {
+    display: flex;
+    position: absolute;
+    top: max(0.85rem, env(safe-area-inset-top, 0px));
+    right: var(--gutter);
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .nav__close span {
+    position: absolute;
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--text);
+  }
+  .nav__close span:nth-child(1) { transform: rotate(45deg); }
+  .nav__close span:nth-child(2) { transform: rotate(-45deg); }
 
   .about__grid { grid-template-columns: 1fr; }
   .skills__grid { grid-template-columns: repeat(2, 1fr); }
@@ -867,15 +978,18 @@ section, .contact {
     -webkit-mask: none;
             mask: none;
   }
+  .hero__avatar-ring {
+    filter: drop-shadow(0 12px 24px rgba(124, 92, 255, 0.35));
+  }
   .hero__sub { grid-column: 1 / -1; grid-row: 2; margin: 0; }
-  .hero__actions { grid-column: 1 / -1; grid-row: 3; }
+  .hero__actions { grid-column: 1 / -1; grid-row: 3; margin: auto; }
 
   /* Availability beacon relocates to a vertical side-rail on the right edge —
      a compact, persistent marker that stays clear of the title and photo. */
-  .status-beacon {
+  /* .status-beacon {
     top: auto;
     bottom: clamp(2rem, 14vh, 7rem);
-    right: -0.35rem;
+    right: 0;
     left: auto;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
@@ -884,7 +998,7 @@ section, .contact {
     letter-spacing: 0.06em;
     border-radius: 100px;
   }
-  .status-beacon__signal { transform: rotate(180deg); }
+  .status-beacon__signal { transform: rotate(180deg); } */
 }
 
 @media (max-width: 540px) {
