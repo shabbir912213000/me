@@ -859,6 +859,33 @@ section, .contact {
   color: var(--faint);
 }
 
+/* ============ Desktop hero spacing ============ */
+@media (min-width: 881px) {
+  .hero__layout {
+    align-items: stretch;
+  }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero__title {
+    margin-top: auto;
+    padding-top: clamp(1rem, 3vh, 2.25rem);
+  }
+  .hero__tagline {
+    margin-top: clamp(1rem, 2vw, 1.35rem);
+    margin-bottom: auto;
+  }
+  .hero__actions {
+    margin-top: 0;
+    padding-bottom: 0.35rem;
+    flex-shrink: 0;
+  }
+  .hero__footer {
+    padding-top: 0.65rem;
+  }
+}
+
 /* ============ Mobile nav panel ============ */
 @media (max-width: 880px) {
   /* A transform OR backdrop-filter on .nav itself would make it the containing
@@ -1005,7 +1032,7 @@ section, .contact {
   .hero {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: 42svh auto auto 1fr auto;
     column-gap: clamp(0.5rem, 3vw, 1.25rem);
     row-gap: 0;
@@ -1035,9 +1062,9 @@ section, .contact {
     grid-row: 1;
     align-self: center;
     justify-self: start;
-    font-size: clamp(1.85rem, 8.5vw, 3rem);
+    font-size: clamp(2.05rem, 10vw, 3.35rem);
     letter-spacing: -0.03em;
-    line-height: 1.02;
+    line-height: 1.1;
   }
   .hero__title .line-row {
     flex-direction: column;
@@ -1054,8 +1081,9 @@ section, .contact {
     grid-row: 1;
     align-self: center;
     justify-self: end;
-    width: 100%;
-    max-width: min(100%, clamp(130px, 38vw, 220px));
+    width: clamp(150px, 44vw, 235px);
+    max-width: 100%;
+    flex-shrink: 0;
     -webkit-mask: none;
             mask: none;
   }
@@ -1123,8 +1151,8 @@ section, .contact {
 @media (max-width: 540px) {
   .skills__grid { grid-template-columns: 1fr; }
   .contact__foot { justify-content: center; text-align: center; }
-  .hero__title { font-size: clamp(1.75rem, 9.5vw, 2.35rem); }
-  .hero__portrait { max-width: min(100%, clamp(118px, 42vw, 185px)); }
+  .hero__title { font-size: clamp(2rem, 11vw, 2.85rem); line-height: 1.1; }
+  .hero__portrait { width: clamp(145px, 45vw, 220px); }
   .hero__actions .btn {
     flex: 1 1 calc(50% - 0.375rem);
     justify-content: center;
