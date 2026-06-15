@@ -31,6 +31,8 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
 ├── index.html              # Markup + CDN/import-map wiring
 ├── assets/
 │   ├── css/styles.css      # All styles
+│   ├── cv/
+│   │   └── Md-Shabbir-Hossain-CV.pdf  # Résumé PDF (replace in place to update)
 │   ├── img/
 │   │   ├── me.jpg          # Optimized portrait
 │   │   ├── wavy-mask.svg   # Filled wavy shape (mask for the rotating hero reveal)
@@ -56,10 +58,11 @@ zero-build static site so it can be hosted for free on **GitHub Pages**.
   (`wavy-mask.svg`) rotates over it and the photo counter-rotates to stay upright,
   so the spinning wavy shape *reveals* the picture rather than statically clipping
   it. A gradient `wavy-frame.svg` ring traces the exact same outline. On mobile
-  the title breaks onto four stacked lines (`Software / Engineer / & Tech / Lead`)
-  beside a generously sized portrait in the top row, with the tagline and buttons
-  spanning full width beneath; the footer meta row lists RUET, years of experience,
-  and stack highlights (.NET backend, React, Angular). Both SVGs hold a **pre-baked
+  the hero fills the first viewport (`100svh`); the availability beacon stays
+  right-aligned like desktop. The title and portrait share a compact top band,
+  then a full-width gradient rule, tagline, vertically centered skills meta,
+  and CTAs pinned to the bottom — pushing the tech ribbon below the fold.
+  Both SVGs hold a **pre-baked
   static path** — CSS masks run in a script-free mode, so the shape is generated
   offline and written into the files.
 
@@ -82,6 +85,17 @@ because the page uses ES modules):
 python3 -m http.server 8080
 # then open http://localhost:8080
 ```
+
+## CV download
+
+The site links to a single PDF at `assets/cv/Md-Shabbir-Hossain-CV.pdf` from the nav
+and contact footer. To publish an updated résumé:
+
+1. Export your CV as PDF.
+2. Save it as `assets/cv/Md-Shabbir-Hossain-CV.pdf` (overwrite the existing file).
+3. Commit and push to `main` — GitHub Pages redeploys automatically.
+
+Keep the filename stable so the HTML links never need to change.
 
 ## Deploying to GitHub Pages
 

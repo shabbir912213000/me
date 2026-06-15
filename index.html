@@ -17,7 +17,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Handlee&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/styles.css" />
 </head>
 <body>
@@ -88,6 +88,7 @@
       <a href="#skills" data-cursor="hover">Skills</a>
       <a href="#work" data-cursor="hover">Experience</a>
       <a href="#education" data-cursor="hover">Education</a>
+      <a href="./assets/cv/Md-Shabbir-Hossain-CV.pdf" download="Md-Shabbir-Hossain-CV.pdf" data-cursor="hover">Download CV</a>
       <a href="#contact" class="nav__cta" data-cursor="hover">Get in touch</a>
     </nav>
     <div class="nav__clock" id="navClock" aria-label="Local time, Bangladesh Standard Time">
@@ -119,10 +120,9 @@
               <span class="line"><span class="word">Lead</span></span>
             </span>
           </h1>
-          <p class="hero__sub reveal-up">
-            I'm <strong>Md Shabbir Hossain</strong> — architecting robust, enterprise-grade
-            applications across the <em>.NET</em> ecosystem, <em>React</em> &amp; <em>Angular</em>
-            for 6+ years.
+          <span class="hero__title-rule" aria-hidden="true"></span>
+          <p class="hero__tagline reveal-up">
+            I design systems people can <span class="grad hero__tagline-trust">trust</span>.
           </p>
           <div class="hero__actions reveal-up">
             <a href="#work" class="btn btn--primary" data-cursor="hover" data-magnetic>
@@ -134,12 +134,18 @@
           </div>
         </div>
         <div class="hero__portrait reveal-up">
-          <span class="hero__avatar">
-            <span class="hero__avatar-reveal">
-              <img src="./assets/img/me.jpg" alt="Portrait of Md Shabbir Hossain" width="440" height="440" />
+          <div class="hero__portrait-stack">
+            <span class="hero__avatar">
+              <span class="hero__avatar-reveal">
+                <img src="./assets/img/me.jpg" alt="Portrait of Md Shabbir Hossain" width="440" height="440" />
+              </span>
+              <span class="hero__avatar-ring" aria-hidden="true"></span>
             </span>
-            <span class="hero__avatar-ring" aria-hidden="true"></span>
-          </span>
+            <div class="hero__profile">
+              <p class="hero__profile-name">Shabbir Hossain</p>
+              <p class="hero__profile-philosophy">Fueled by curiosity, grounded in engineering discipline.</p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="hero__footer">
@@ -340,6 +346,7 @@
         shabbir912213000@gmail.com
       </a>
       <div class="contact__links">
+        <a href="./assets/cv/Md-Shabbir-Hossain-CV.pdf" download="Md-Shabbir-Hossain-CV.pdf" data-cursor="hover">CV ↗</a>
         <a href="https://github.com/shabbir912213000" target="_blank" rel="noopener" data-cursor="hover">GitHub ↗</a>
         <a href="mailto:shabbir912213000@gmail.com" data-cursor="hover">Email ↗</a>
       </div>
